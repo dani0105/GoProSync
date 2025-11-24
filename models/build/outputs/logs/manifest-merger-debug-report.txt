@@ -1,0 +1,16 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /home/daniel/AndroidStudioProjects/GoProSync/models/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7892644544263627044.xml:2:13-83
+INJECTED from /home/daniel/AndroidStudioProjects/GoProSync/models/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7892644544263627044.xml:2:13-83
+	package
+		INJECTED from /home/daniel/AndroidStudioProjects/GoProSync/models/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7892644544263627044.xml
+	xmlns:android
+		ADDED from /home/daniel/AndroidStudioProjects/GoProSync/models/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7892644544263627044.xml:2:23-81
+uses-sdk
+INJECTED from /home/daniel/AndroidStudioProjects/GoProSync/models/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7892644544263627044.xml reason: use-sdk injection requested
+INJECTED from /home/daniel/AndroidStudioProjects/GoProSync/models/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7892644544263627044.xml
+INJECTED from /home/daniel/AndroidStudioProjects/GoProSync/models/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7892644544263627044.xml
+	android:targetSdkVersion
+		INJECTED from /home/daniel/AndroidStudioProjects/GoProSync/models/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7892644544263627044.xml
+	android:minSdkVersion
+		INJECTED from /home/daniel/AndroidStudioProjects/GoProSync/models/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7892644544263627044.xml
