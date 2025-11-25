@@ -1,10 +1,9 @@
-package website.danielrojas.goprosync
+package website.danielrojas.goprosync.utils
 
 
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCharacteristic
 import android.bluetooth.BluetoothGattDescriptor
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.*
 import java.util.*
 

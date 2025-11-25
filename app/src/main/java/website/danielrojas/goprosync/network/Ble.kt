@@ -1,4 +1,4 @@
-package website.danielrojas.goprosync
+package website.danielrojas.goprosync.network
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -14,6 +14,13 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import website.danielrojas.goprosync.utils.findCharacteristic
+import website.danielrojas.goprosync.utils.isIndicatable
+import website.danielrojas.goprosync.utils.isNotifiable
+import website.danielrojas.goprosync.utils.isWritable
+import website.danielrojas.goprosync.utils.isWritableWithoutResponse
+import website.danielrojas.goprosync.utils.printGattTable
+import website.danielrojas.goprosync.utils.toHexString
 import java.lang.ref.WeakReference
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
