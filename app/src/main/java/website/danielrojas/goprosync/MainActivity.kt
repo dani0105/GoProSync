@@ -10,9 +10,7 @@ import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.app.ServiceCompat.stopForeground
-import java.io.File
-import java.io.FileOutputStream
+import website.danielrojas.goprosync.services.SyncService
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,7 +27,7 @@ class MainActivity : AppCompatActivity() {
             arrayOf(Manifest.permission.RECORD_AUDIO),
             1
         )
-        intentService = Intent(this, MicrophoneService::class.java)
+        intentService = Intent(this, SyncService::class.java)
     }
 
     fun onStartServiceClick(view: View) {
