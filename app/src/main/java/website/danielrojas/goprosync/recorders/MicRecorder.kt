@@ -2,13 +2,16 @@ package website.danielrojas.goprosync.recorders
 
 import android.Manifest
 import android.content.Context
+import android.media.AudioDeviceInfo
 import android.media.AudioFormat
+import android.media.AudioManager
 import android.media.AudioRecord
 import android.media.MediaRecorder
 import android.os.Environment
 import android.util.Log
 import androidx.annotation.RequiresPermission
 import org.vosk.Recognizer
+import website.danielrojas.goprosync.services.SyncService
 import java.io.File
 import java.io.FileOutputStream
 import java.util.concurrent.BlockingQueue
@@ -16,7 +19,7 @@ import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.atomic.AtomicBoolean
 
 
-class MicRecorder(private val recognizer: Recognizer, val startCallback: ()->Int, val stopCallback: () -> Int){
+class MicRecorder(val context:Context,private val recognizer: Recognizer, val startCallback: ()->Int, val stopCallback: () -> Int){
     private var isRunning = false
     private val isRecording = AtomicBoolean(false)
     private lateinit var audioRecord: AudioRecord
@@ -40,7 +43,7 @@ class MicRecorder(private val recognizer: Recognizer, val startCallback: ()->Int
             AudioFormat.ENCODING_PCM_16BIT,
             bufferSize
         )
-
+        SyncService.AppRepository.mic.postValue( audioRecord.routedDevice.productName.toString())
         audioRecord.startRecording()
         startListeningThread()
         startRecognitionThread()

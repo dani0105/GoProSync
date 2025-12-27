@@ -7,13 +7,16 @@ import android.content.Context
 import android.os.ParcelUuid
 import android.util.Log
 import androidx.annotation.RequiresPermission
+import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import website.danielrojas.goprosync.MainActivity
 import website.danielrojas.goprosync.network.BleEventListener
 import website.danielrojas.goprosync.network.Bluetooth
+import website.danielrojas.goprosync.services.SyncService
 import website.danielrojas.goprosync.utils.GOPRO_UUID
 import website.danielrojas.goprosync.utils.GoProUUID
 import website.danielrojas.goprosync.utils.isNotifiable
@@ -71,6 +74,7 @@ class GoProRecorder {
             CoroutineScope(Dispatchers.IO).launch {
                 scanResults.collect { scanResult ->
                     Log.i("startGoProRecording","Found GoPro: ${scanResult.device.name}")
+                    SyncService.AppRepository.camera.postValue(scanResult.device.name)
                     // We will take the first discovered gopro
                     deviceChannel.send(scanResult.device)
                 }

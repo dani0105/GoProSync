@@ -9,11 +9,13 @@ import android.content.Intent
 import android.content.pm.ServiceInfo
 import android.media.AudioManager
 import android.media.AudioRecord
+import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -29,6 +31,17 @@ class SyncService: Service() {
     private lateinit var micRecorder: MicRecorder
     private lateinit var goproRecorder: GoProRecorder
     private var start:Boolean = false
+    private val binder = LocalBinder()
+
+    inner class LocalBinder : Binder() {
+        fun getService(): SyncService = this@SyncService
+    }
+
+    object AppRepository{
+        val log = MutableLiveData<String>("")
+        val camera = MutableLiveData<String>("")
+        val mic = MutableLiveData<String>("")
+    }
 
     @SuppressLint("MissingPermission")
     override fun onCreate() {
@@ -47,9 +60,10 @@ class SyncService: Service() {
                 //enableBluetoothMic()
                 goproRecorder = GoProRecorder(applicationContext)
                 enableBluetoothMic()
-                micRecorder = MicRecorder(recognizer, { startCallback() }, { stopCallback() })
+                micRecorder = MicRecorder(applicationContext,recognizer, { startCallback() }, { stopCallback() })
                 micRecorder.init()
                 GlobalScope.async { goproRecorder.detect() }
+                AppRepository.log.postValue("Service started!")
 
             },
             { exception: IOException? -> null })
@@ -63,6 +77,7 @@ class SyncService: Service() {
         }
         start = true
         GlobalScope.async {
+            AppRepository.log.postValue("Starting recording!")
             Log.d("MicrophoneService", "Connecting to camera")
             goproRecorder.connect()
             delay(1000)
@@ -70,6 +85,7 @@ class SyncService: Service() {
             goproRecorder.startRecording()
             Log.d("MicrophoneService", "Start Recording mic")
             micRecorder.startRecording(applicationContext)
+            AppRepository.log.postValue("Recording started!")
         }
         return 1
     }
@@ -81,6 +97,7 @@ class SyncService: Service() {
         }
         start = false
         GlobalScope.async {
+            AppRepository.log.postValue("Stoping recording!")
             Log.d("MicrophoneService", "stop recording camera")
             goproRecorder.stopRecording()
             Log.d("MicrophoneService", "stop recording mic")
@@ -88,6 +105,7 @@ class SyncService: Service() {
             delay(5000)
             Log.d("MicrophoneService", "shutdown camera")
             goproRecorder.disconnect()
+            AppRepository.log.postValue("Recording stoped!")
 
         }
         return 1
@@ -98,12 +116,13 @@ class SyncService: Service() {
     }
 
     override fun onDestroy() {
+        AppRepository.log.postValue("Service stoped!")
         disableBluetoothMic()
         micRecorder.kill()
         super.onDestroy()
     }
 
-    override fun onBind(intent: Intent?): IBinder? = null
+    override fun onBind(intent: Intent?): IBinder? = binder
 
     private fun enableBluetoothMic() {
         val audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
